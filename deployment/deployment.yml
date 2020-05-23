@@ -1,0 +1,21 @@
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: do-not-disturb-deployment
+  labels:
+    app: do-not-disturb
+spec:
+  selector:
+    matchLabels:
+      app: do-not-disturb
+  template:
+    metadata:
+      labels:
+        app: do-not-disturb
+    spec:
+      containers:
+      - name: do-not-disturb
+        image: localhost:32000/minelminel/do-not-disturb:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000

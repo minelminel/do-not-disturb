@@ -1,0 +1,23 @@
+.container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+.box {
+    flex-grow: 1;
+    background-color: tomato;
+    border: 2px solid #f3f3f3;
+    border-radius: 30px;
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;    /* horizontal */
+    align-items: center;        /* vertical */
+    cursor: pointer;
+    color: white;
+    font-size: 3rem;
+}
+.box:hover {
+    filter: brightness(85%);
+}
