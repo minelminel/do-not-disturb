@@ -2,14 +2,15 @@ version: "3"
 services:
   web:
     image: do-not-disturb:latest
-    build:
-      context: .
+    build: .
+    depends_on:
+      - redis
     ports: 
       - "5000:5000"
     command: ["python3", "-m", "app"]
-  # redis:
-  #   image: redis:latest
-  #   depends_on:
-  #     - web
-  #   ports:
-  #     - 6379:6379
+    volumes:
+      - "./:/app/"  # enable hot reload
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379

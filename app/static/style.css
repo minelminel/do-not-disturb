@@ -1,5 +1,5 @@
 .container {
-    height: 100vh;
+    height: 95vh;
     display: flex;
     flex-direction: column;
     align-content: space-between;
@@ -20,4 +20,10 @@
 }
 .box:hover {
     filter: brightness(85%);
+}
+footer {
+    color: gray;
+    font-size: small;
+    text-align: center;
+    margin: 0;
 }

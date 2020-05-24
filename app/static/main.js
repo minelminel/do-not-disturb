@@ -1,5 +1,5 @@
 const APP_DIV = document.getElementById('app');
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 const colorFree = 'forestgreen';
 const colorBusy = 'tomato';
 
@@ -12,9 +12,8 @@ function toggleStatus(key) {
 };
 
 function makeBox(key, obj) {
-    console.log(`key: ${key} value: ${obj}`);
+    console.log(`key: ${key} value: ${JSON.stringify(obj)}`);
     const bgColor = obj.doNotDisturb ? colorBusy : colorFree;
-    console.log(bgColor);
     return `<div class="box" style="background-color: ${bgColor}" onclick="toggleStatus('${key}')" >${obj.name}</div>`;
 };
 
@@ -28,7 +27,10 @@ function init() {
                 APP_DIV.innerHTML += makeBox(key, obj);
             };
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+            console.error(error);
+            APP_DIV.innerHTML += `<div style="background-color: red" >Error Fetching Data</div>`
+        });
 };
 
 window.addEventListener('load', init);
