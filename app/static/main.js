@@ -6,9 +6,14 @@ const colorBusy = 'tomato';
 function toggleStatus(key) {
     console.log(`toggle: ${key}`);
     const HTTP = new XMLHttpRequest();
+    HTTP.onreadystatechange = function() {
+        if (HTTP.readyState === 4) {
+            console.log(HTTP.response);
+            init();
+        }
+    }
     HTTP.open('POST', `${API_URL}?name=${key}`);
     HTTP.send();
-    init();
 };
 
 function makeBox(key, obj) {
