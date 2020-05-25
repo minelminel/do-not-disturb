@@ -1,15 +1,14 @@
 version: "3"
 services:
-  web:
+  flask:
     image: do-not-disturb:latest
     build: .
     depends_on:
       - redis
     ports: 
-      - "5000:5000"
-    command: ["python3", "-m", "app"]
+      - "8000:80"
     volumes:
-      - "./:/app/"  # enable hot reload
+      - "./:/var/www/html/"  # enable hot reload
   redis:
     image: redis:latest
     ports:

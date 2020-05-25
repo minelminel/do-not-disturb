@@ -1,13 +1,32 @@
-FROM alpine:latest
+FROM centos:7
 
-RUN apk update && apk upgrade && \
-    apk add python3
+RUN yum -y update && yum -y upgrade
 
-COPY requirements.txt .
-RUN python3 -m pip install -U pip wheel setuptools && \
-    python3 -m pip install -r requirements.txt
+RUN yum install -y epel-release gcc tree && \
+    yum install -y python36 python36-pip python36-devel && \
+    yum install -y httpd httpd-devel && \
+    yum clean all
 
-WORKDIR /app
+RUN python3 -m pip install -U \
+    pip setuptools wheel \
+    mod_wsgi
+
+# Leverage cache for pip dependencies
+ADD requirements.txt .
+RUN python3 -m pip install -r requirements.txt
+
+# Simple startup script to avoid some issues observed with container restart (CentOS tip)
+COPY setup/run-apache-httpd.sh /run-apache-httpd.sh
+RUN chmod -v +x /run-apache-httpd.sh
+
+# allows httpd to work with python3
+RUN mod_wsgi-express install-module > /etc/httpd/conf.modules.d/02-wsgi.conf
+
+COPY setup/site.conf /etc/httpd/conf.d/welcome.conf
+
+WORKDIR /var/www/html/
 COPY . .
 
-CMD ["python3", "-m", "app"]
+EXPOSE 80
+
+CMD ["/run-apache-httpd.sh"]
